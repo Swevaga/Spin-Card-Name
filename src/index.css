@@ -1,0 +1,226 @@
+@import "tailwindcss";
+
+/* Loading text pulse for first impression */
+.loading-screen h1 {
+  animation: title-glow 1.8s ease-in-out infinite;
+}
+
+.spin-stage {
+  perspective: 1100px;
+}
+
+.spin-card {
+  position: absolute;
+  width: 200px;
+  height: 300px;
+  transform-style: preserve-3d;
+}
+
+.spin-card.settled {
+  transform: rotateY(0deg);
+}
+
+.spin-card.is-spinning {
+  --offset: calc(var(--card-index) - 2);
+  animation: spin-shuffle 2.35s cubic-bezier(0.22, 0.8, 0.2, 1) forwards;
+}
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  backface-visibility: hidden;
+  box-shadow: 0 20px 40px rgba(2, 6, 23, 0.55);
+  overflow: hidden;
+}
+
+/* TAROT FRONT */
+.card-front {
+  background: #111418;
+  border: 2px solid #d4af37;
+  box-shadow: inset 0 0 0 4px #111418, inset 0 0 0 6px rgba(212, 175, 55, 0.6), inset 0 0 60px rgba(0,0,0,0.9);
+  background-image: 
+    radial-gradient(circle at center, transparent 20%, #000 130%), 
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 6px);
+}
+
+.tarot-frame {
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.tarot-frame::before, .tarot-frame::after {
+  content: "✦";
+  color: rgba(212, 175, 55, 0.8);
+  position: absolute;
+  font-size: 1.2rem;
+}
+.tarot-frame::before { top: -14px; }
+.tarot-frame::after { bottom: -14px; }
+
+.tarot-title {
+  font-family: 'Cinzel Decorative', serif;
+  color: #d4af37;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  position: absolute;
+  top: 15px;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+}
+
+.tarot-name {
+  font-family: 'Playfair Display', serif;
+  color: #fdfbf7;
+  font-size: 1.6rem;
+  text-shadow: 0 2px 5px rgba(0,0,0,1);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.winner-text {
+  font-size: 2.2rem;
+  color: #fbbf24;
+  text-shadow: 0 0 15px rgba(251, 191, 36, 0.6), 0 0 30px rgba(251, 191, 36, 0.3);
+}
+
+/* MYTHIC BACK */
+.card-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(135deg, #1e0b2e 0%, #06020a 100%);
+  border: 2px solid #a855f7;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.5), inset 0 0 40px rgba(0,0,0,0.9), inset 0 0 15px rgba(168, 85, 247, 0.6);
+}
+
+.card-back::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(168, 85, 247, 0.4) 60deg, transparent 120deg);
+  animation: rotate-mythic 5s linear infinite;
+}
+
+.card-back-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.mythic-core {
+  width: 56px;
+  height: 56px;
+  background: radial-gradient(circle, #fbbf24 0%, #ea580c 60%, transparent 80%);
+  border-radius: 50%;
+  box-shadow: 0 0 30px #fbbf24, 0 0 60px #ea580c;
+  animation: pulse-core 2s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mythic-core::after {
+  content: "✧";
+  color: white;
+  font-size: 2.2rem;
+  text-shadow: 0 0 15px white;
+}
+
+.mythic-text {
+  font-family: 'Cinzel Decorative', serif;
+  color: #e9d5ff;
+  margin-top: 1.5rem;
+  letter-spacing: 0.35em;
+  font-size: 0.85rem;
+  text-shadow: 0 0 12px #a855f7;
+}
+
+.reveal-face {
+  animation: reveal-pop 600ms cubic-bezier(0.1, 0.9, 0.2, 1);
+}
+
+/* BURST & GAME EXPLOSION EFFECTS */
+.burst-particle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--burst-size);
+  height: var(--burst-size);
+  background: var(--burst-color);
+  opacity: 0;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotate(var(--burst-angle)) translateY(0);
+  animation: burst-epic 1s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+  animation-delay: var(--burst-delay);
+  box-shadow: 0 0 10px var(--burst-color), 0 0 20px var(--burst-color);
+}
+
+.burst-particle.shape-star {
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  border-radius: 0;
+}
+
+.shockwave {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  border: 4px solid #fbbf24;
+  box-shadow: 0 0 20px #fbbf24, inset 0 0 20px #fbbf24;
+  opacity: 0;
+  z-index: 0;
+}
+
+.shockwave.active {
+  animation: shockwave-epic 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes title-glow {
+  0%, 100% { opacity: 0.78; text-shadow: 0 0 0 rgba(165, 180, 252, 0); }
+  50% { opacity: 1; text-shadow: 0 0 30px rgba(165, 180, 252, 0.38); }
+}
+
+@keyframes spin-shuffle {
+  0% { transform: translate3d(calc(var(--offset) * 56px), calc(var(--offset) * 6px), 0) rotateY(calc(var(--offset) * -16deg)) rotateZ(calc(var(--offset) * 4deg)); }
+  30% { transform: translate3d(calc(var(--offset) * -70px), -40px, 80px) rotateY(calc(var(--offset) * 95deg + 180deg)) rotateZ(calc(var(--offset) * -6deg)); }
+  70% { transform: translate3d(calc(var(--offset) * 22px), -12px, 30px) rotateY(calc(var(--offset) * 220deg + 390deg)) rotateZ(calc(var(--offset) * 2deg)); }
+  100% { transform: translate3d(0, 0, 0) rotateY(540deg) rotateZ(0deg); }
+}
+
+@keyframes reveal-pop {
+  0% { transform: scale(0.7) rotateY(90deg); opacity: 0; }
+  100% { transform: scale(1) rotateY(0deg); opacity: 1; }
+}
+
+@keyframes rotate-mythic {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse-core {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+@keyframes burst-epic {
+  0% { opacity: 1; transform: translate(-50%, -50%) rotate(var(--burst-angle)) translateY(0) scale(0); }
+  15% { opacity: 1; transform: translate(-50%, -50%) rotate(var(--burst-angle)) translateY(calc(var(--burst-distance) * -0.2)) scale(1.5); }
+  100% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--burst-angle)) translateY(calc(var(--burst-distance) * -1)) scale(0); }
+}
+
+@keyframes shockwave-epic {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 1; border-width: 15px; }
+  100% { transform: translate(-50%, -50%) scale(60); opacity: 0; border-width: 0px; }
+}
